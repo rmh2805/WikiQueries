@@ -1,0 +1,45 @@
+====<WikiQuery>====
+
+
+
+	Word Count (w) or Substring (s) (quit is 'q'): 	How many trials to run: 	Enter the substring to scan for: 
+	Instances/length for substring "aa"
+		en: 0.0002228110859482046
+		nl: 0.006712698042247901
+		nTrials = 100
+
+
+
+	Word Count (w) or Substring (s) (quit is 'q'): 	How many trials to run: 	Enter the substring to scan for: 
+	Instances/length for substring "ee"
+		en: 0.0017346237459831442
+		nl: 0.0082137960910995
+		nTrials = 100
+
+
+
+	Word Count (w) or Substring (s) (quit is 'q'): 	How many trials to run: 	Enter the substring to scan for: 
+	Instances/length for substring "ii"
+		en: 0.00014570906081173225
+		nl: 0.000275377721801882
+		nTrials = 100
+
+
+
+	Word Count (w) or Substring (s) (quit is 'q'): 	How many trials to run: 	Enter the substring to scan for: 
+	Instances/length for substring "oo"
+		en: 0.0012646928796367172
+		nl: 0.006436665345299448
+		nTrials = 100
+
+
+
+	Word Count (w) or Substring (s) (quit is 'q'): 	How many trials to run: 	Enter the substring to scan for: 
+	Instances/length for substring "uu"
+		en: 3.848825301572978e-05
+		nl: 0.00031049374158982303
+		nTrials = 100
+
+
+
+	Word Count (w) or Substring (s) (quit is 'q'): 
