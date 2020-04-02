@@ -1,7 +1,4 @@
 ====<WikiQuery>====
-
-
-
 	Word Count (w) or Substring (s) (quit is 'q'): 	How many trials to run: 	Enter the substring to scan for: 
 	Instances/length for substring "aa"
 		en: 0.0002228110859482046

@@ -1,7 +1,4 @@
 ====<WikiQuery>====
-
-
-
 	Word Count (w) or Substring (s) (quit is 'q'): 	How many trials to run: 
 	Avg word lengths:
 		en: 6.05815772146823
