@@ -64,14 +64,17 @@ def substringFrequency(text, substring):
     return float(text.count(substring) * len(substring))/float(len(text))
 
 
-nlSum = 0.0
-enSum = 0.0
 nTrials = 100
-for i in range(0, nTrials):
-    nlSum += substringFrequency(getText(getPage(nlRand)), 'aa')
-    enSum += substringFrequency(getText(getPage(enRand)), 'aa')
+sStrs = ['aa', 'ee', 'ii', 'oo', 'uu']
+for sStr in sStrs:
+    nlSum = 0.0
+    enSum = 0.0
+    for i in range(0, nTrials):
+        nlSum += substringFrequency(getText(getPage(nlRand)), sStr)
+        enSum += substringFrequency(getText(getPage(enRand)), sStr)
 
-print('nl: ' + str(nlSum/nTrials))
-print('en: ' + str(enSum/nTrials))
+    print('\nFrequencies for substring "' + sStr + '"')
+    print('\tnl: ' + str(nlSum/nTrials))
+    print('\ten: ' + str(enSum/nTrials))
 
 
