@@ -59,4 +59,19 @@ def getText(data):
     return text
 
 
+def substringFrequency(text, substring):
+    text = ' ' + text.strip() + ' '  # Buffer start and end of line to catch matches at the beginning and end of line
+    return float(text.count(substring) * len(substring))/float(len(text))
+
+
+nlSum = 0.0
+enSum = 0.0
+nTrials = 100
+for i in range(0, nTrials):
+    nlSum += substringFrequency(getText(getPage(nlRand)), 'aa')
+    enSum += substringFrequency(getText(getPage(enRand)), 'aa')
+
+print('nl: ' + str(nlSum/nTrials))
+print('en: ' + str(enSum/nTrials))
+
 
