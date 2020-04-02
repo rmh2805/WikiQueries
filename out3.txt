@@ -1,0 +1,13 @@
+====<WikiQuery>====
+
+
+
+	Word Count (w) or Substring (s) (quit is 'q'): 	How many trials to run: 
+	Avg word lengths:
+		en: 6.222393602386346
+		nl: 6.076626256839104
+		nTrials = 1000
+
+
+
+	Word Count (w) or Substring (s) (quit is 'q'): 
