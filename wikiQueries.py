@@ -61,7 +61,7 @@ def getText(data):
 
 def substringFrequency(text, substring):
     text = ' ' + text.strip().lower() + ' '
-    return float(text.count(substring))/float(len(text) * len(substring))
+    return float(text.count(substring))/float(len(text))
 
 
 def wordLen(text):
@@ -81,8 +81,9 @@ def main():
 
     while True:
         stIn = ''
+        print('\n\n')
         while len(stIn) == 0 or (not stIn[0] == 'w' and not stIn[0] == 's' and not stIn[0] == 'q'):
-            stIn = input('\n\tWord Count (w) or Substring (s) (quit is \'q\'): ').strip().lower()
+            stIn = input('\tWord Count (w) or Substring (s) (quit is \'q\'): ').strip().lower()
         nTrials = ''
         if stIn[0] == 'q':
             break
@@ -106,11 +107,11 @@ def main():
                 nlSum += substringFrequency(getText(getPage(nlRand)), sStr)
                 enSum += substringFrequency(getText(getPage(enRand)), sStr)
 
-            print('\n\tFrequencies for substring "' + sStr + '"')
+            print('\n\tInstances/length for substring "' + sStr + '"')
 
         print('\t\ten: ' + str(enSum / float(nTrials)))
         print('\t\tnl: ' + str(nlSum / float(nTrials)))
-
+        print('\t\tnTrials = ' + str(nTrials))
 
 if __name__ == '__main__':
     main()
