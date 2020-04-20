@@ -154,6 +154,33 @@ def entropy(enCount, nlCount):
     return -tot
 
 
+def printEntropy(enCount, nlCount, nTrials):
+    enP = float(enCount) / nTrials
+    nlP = float(nlCount) / nTrials
+    totP = float(enCount + nlCount) / (2 * nTrials)
+
+    posEntro = entropy(enCount, nlCount)
+    negEntro = entropy(nTrials - enCount, nTrials - nlCount)
+    totEntro = entropy(nTrials, nTrials)
+
+    remainder = float(enCount + nlCount) / (2 * nTrials) * posEntro
+    remainder += float(nTrials * 2 - enCount - nlCount) / (2 * nTrials) * negEntro
+
+    print('\n\tCounts:')
+    print('\t\tEnglish: ' + str(enCount))
+    print('\t\t  Dutch: ' + str(nlCount))
+    print('\tProbabilities:')
+    print('\t\tP(Positive | English):     ' + str(enP))
+    print('\t\tP(Positive | Dutch)  :     ' + str(nlP))
+    print('\t\tP(Positive)          : ' + str(totP))
+    print('\tInfo Gain:')
+    print('\t\tEntropy(Positives) = ' + str(posEntro))
+    print('\t\tEntropy(Negatives) = ' + str(negEntro))
+    print('\t\tEntropy(Total)     = ' + str(totEntro))
+    print('\t\tRemainder(Split)   = ' + str(remainder))
+    print('\n\t\tinfo gain(Split) = ' + str(totEntro - remainder))
+
+
 # ==============================================<Primary Function Calls>============================================== #
 def getMeanLen(nTrials):
     enData = []
@@ -246,30 +273,40 @@ def hasSubstring(nTrials):
         if sStr in sample:
             nlCount += 1
 
-    enP = float(enCount) / nTrials
-    nlP = float(nlCount) / nTrials
-    totP = float(enCount + nlCount) / (2 * nTrials)
+    printEntropy(enCount, nlCount, nTrials)
 
-    posEntro = entropy(enCount, nlCount)
-    negEntro = entropy(nTrials - enCount, nTrials - nlCount)
-    totEntro = entropy(nTrials, nTrials)
 
-    remainder = float(enCount + nlCount) / (2 * nTrials) * posEntro
-    remainder += float(nTrials * 2 - enCount - nlCount) / (2 * nTrials) * negEntro
+def hasNSubstrings(nTrials):
+    enCount = 0
+    nlCount = 0
 
-    print('\n\tCounts:')
-    print('\t\tEnglish: ' + str(enCount))
-    print('\t\t  Dutch: ' + str(nlCount))
-    print('\tProbabilities:')
-    print('\t\tP("' + sStr + '" in en):     ' + str(enP))
-    print('\t\tP("' + sStr + '" in nl):     ' + str(nlP))
-    print('\t\tP("' + sStr + '" in either): ' + str(totP))
-    print('\tInfo Gain:')
-    print('\t\tentropy(has substring) = ' + str(posEntro))
-    print('\t\tentropy(no substring)  = ' + str(negEntro))
-    print('\t\tentropy(both)          = ' + str(totEntro))
-    print('\t\tremainder(substring)   = ' + str(remainder))
-    print('\n\t\tinfo gain(substring)   = ' + str(totEntro - remainder))
+    sStr = input('\tEnter the substring to scan for: ').strip().lower()
+    threshold = None
+    while threshold is None or not str(threshold).strip().isnumeric():
+        threshold = input('\tEnter the minimum number of occurences of the substring: ')
+    threshold = int(threshold)
+
+    print('\n\tCounting the samples containing more than ' + str(threshold) + ' instances of substring "', end='')
+    print(sStr + '" over ' + str(nTrials) + ' trials.')
+
+    for i in range(0, nTrials):
+        sample = None
+        while sample is None or '|' in sample:
+            sample = grabSample(randEnPage())
+        if substringCount(sample, sStr) >= threshold:
+            enCount += 1
+
+        sample = None
+        while sample is None or '|' in sample:
+            sample = grabSample(randNlPage())
+        if substringCount(sample, sStr) >= threshold:
+            nlCount += 1
+
+    printEntropy(enCount, nlCount, nTrials)
+
+
+def maxWordLen(nTrials):
+    pass
 
 
 legalOptions = ['m', 's', 'g', 'h']
@@ -303,7 +340,7 @@ def main():
             generateTrainingSet(nTrials)
 
         if stIn[0] == 'h':
-            hasSubstring(nTrials)
+            hasNSubstrings(nTrials)
 
 
 if __name__ == '__main__':
