@@ -100,6 +100,14 @@ def wordLen(text):
     return float(textSum) / float(numWords)
 
 
+def maxWordLen(text):
+    text = text.strip().split()
+    maxWord = 0
+    for word in text:
+        maxWord = max(maxWord, len(word))
+    return maxWord
+
+
 # ===================================================<Misc Helpers>=================================================== #
 def printMeanAndDev(enData, nlData):
     enMean = float(sum(enData)) / len(enData)
@@ -187,6 +195,7 @@ def getMeanLen(nTrials):
     nlData = []
 
     print('\n\tCalculating the mean word lengths of english and dutch phrases over ' + str(nTrials) + ' trials')
+    print(isinstance(nTrials, str))
 
     for i in range(0, nTrials):
         sample = None
@@ -200,6 +209,26 @@ def getMeanLen(nTrials):
         nlData.append(wordLen(sample))
 
     print('\n\tWord Lengths')
+    printMeanAndDev(enData, nlData)
+
+
+def getMaxWordLen(nTrials):
+    enData = []
+    nlData = []
+
+    print('\n\tCalculating the mean max word length of english and dutch phrases over ' + str(nTrials) + ' trials')
+
+    for i in range(0, nTrials):
+        sample = None
+        while sample is None or '|' in sample:
+            sample = grabSample(randEnPage())
+        enData.append(maxWordLen(sample))
+
+        sample = None
+        while sample is None or '|' in sample:
+            sample = grabSample(randNlPage())
+        nlData.append(maxWordLen(sample))
+
     printMeanAndDev(enData, nlData)
 
 
@@ -253,6 +282,7 @@ def generateTrainingSet(nTrials):
     print('\n\t Done')
 
 
+#
 def hasSubstring(nTrials):
     enCount = 0
     nlCount = 0
@@ -286,7 +316,7 @@ def hasNSubstrings(nTrials):
         threshold = input('\tEnter the minimum number of occurences of the substring: ')
     threshold = int(threshold)
 
-    print('\n\tCounting the samples containing more than ' + str(threshold) + ' instances of substring "', end='')
+    print('\n\tCounting the samples containing more than ' + str(threshold - 1) + ' instances of substring "', end='')
     print(sStr + '" over ' + str(nTrials) + ' trials.')
 
     for i in range(0, nTrials):
@@ -305,10 +335,6 @@ def hasNSubstrings(nTrials):
     printEntropy(enCount, nlCount, nTrials)
 
 
-def maxWordLen(nTrials):
-    pass
-
-
 legalOptions = ['m', 's', 'g', 'h']
 
 
@@ -319,7 +345,7 @@ def main():
         stIn = ''
         print('\n\n')
         while len(stIn) == 0 or (stIn[0] not in legalOptions and not stIn[0] == 'q'):
-            stIn = input('\tMean Word Length (m), Substring Count (s), Substring presence (h), or '
+            stIn = input('\tMax Word Length (m), Substring Count (s), Substring presence (h), or '
                          'Generate Training Set (g) (quit is \'q\'): ')
             stIn = stIn.strip().lower()
         nTrials = ''
@@ -331,7 +357,7 @@ def main():
         nTrials = int(nTrials)
 
         if stIn[0] == 'm':
-            getMeanLen(nTrials)
+            getMaxWordLen(nTrials)
 
         if stIn[0] == 's':
             getSubstringFrequency(nTrials)
