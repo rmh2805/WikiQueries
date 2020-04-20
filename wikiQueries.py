@@ -312,7 +312,7 @@ def hasWord(nTrials):
     word = input('\tEnter the word to scan for: ').strip().lower()
     print('\n\tCounting the samples containing the word "' + word + '" over ' + str(nTrials) + ' trials.')
 
-    print('\t')
+    print('\n\tProgress: ', end='')
     for i in range(0, nTrials):
         if i % 25 == 0:
             print(str(i) + ', ', end='')
@@ -372,7 +372,7 @@ def hasNSubstrings(nTrials):
     print('\n\tCounting the samples containing more than ' + str(threshold - 1) + ' instances of substring "', end='')
     print(sStr + '" over ' + str(nTrials) + ' trials.')
 
-    print('\t')
+    print('\n\tProgress: ', end='')
     for i in range(0, nTrials):
         if i % 25 == 0:
             print(str(i) + ', ', end='')
