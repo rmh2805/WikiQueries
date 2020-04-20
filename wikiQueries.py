@@ -312,7 +312,7 @@ def hasWord(nTrials):
     word = input('\tEnter the word to scan for: ').strip().lower()
     print('\n\tCounting the samples containing the word "' + word + '" over ' + str(nTrials) + ' trials.')
 
-    print('')
+    print('\t')
     for i in range(0, nTrials):
         if i % 25 == 0:
             print(str(i) + ', ', end='')
