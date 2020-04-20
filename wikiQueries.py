@@ -140,6 +140,9 @@ def grabSample(text, sampleLength=15):
 def getMeanLen(nTrials):
     enData = []
     nlData = []
+
+    print('\n\tCalculating the mean word lengths of english and dutch phrases over ' + str(nTrials) + ' trials')
+
     for i in range(0, nTrials):
         sample = None
         while sample is None or '|' in sample:
@@ -159,9 +162,20 @@ def getSubstringFrequency(nTrials):
     enData = []
     nlData = []
     sStr = input('\tEnter the substring to scan for: ').strip().lower()
+
+    print('\n\tCounting the instances of substring "' + sStr + '" over ' + str(nTrials) + ' trials.')
+
     for i in range(0, nTrials):
-        nlData += substringCount(grabSample(randNlPage()), sStr)
-        enData += substringCount(grabSample(randEnPage()), sStr)
+
+        sample = None
+        while sample is None or '|' in sample:
+            sample = grabSample(randEnPage())
+        enData.append(substringCount(sample, sStr))
+
+        sample = None
+        while sample is None or '|' in sample:
+            sample = grabSample(randNlPage())
+        nlData.append(substringCount(sample, sStr))
 
     print('\n\tSubstring count for "' + sStr + '"')
     printMeanAndDev(enData, nlData)
@@ -169,6 +183,10 @@ def getSubstringFrequency(nTrials):
 
 def generateTrainingSet(nTrials):
     fName = input('\tEnter the filename to save to: ').strip()
+
+    print('\n\tGenerating a training set of ' + str(nTrials) + ' examples of english and dutch phrases.')
+    print('\tSaving training set to ' + fName)
+
     fp = open(fName, 'w', encoding='utf8')
     for i in range(0, nTrials):
         if i != 0:
@@ -186,6 +204,8 @@ def generateTrainingSet(nTrials):
         fp.write('nl|' + sample)
 
     fp.close()
+
+    print('\n\t Done')
 
 
 legalOptions = ['m', 's', 'g']
