@@ -287,7 +287,7 @@ def hasSubstring(nTrials):
     nlCount = 0
 
     sStr = input('\tEnter the substring to scan for: ').strip().lower()
-    print('\n\tCounting the samples containing of substring "' + sStr + '" over ' + str(nTrials) + ' trials.')
+    print('\n\tCounting the samples containing the substring "' + sStr + '" over ' + str(nTrials) + ' trials.')
 
     for i in range(0, nTrials):
         sample = None
@@ -300,6 +300,29 @@ def hasSubstring(nTrials):
         while sample is None or '|' in sample:
             sample = grabSample(randNlPage())
         if sStr in sample:
+            nlCount += 1
+
+    printEntropy(enCount, nlCount, nTrials)
+
+
+def hasWord(nTrials):
+    enCount = 0
+    nlCount = 0
+
+    word = input('\tEnter the word to scan for: ').strip().lower()
+    print('\n\tCounting the samples containing the word "' + word + '" over ' + str(nTrials) + ' trials.')
+
+    for i in range(0, nTrials):
+        sample = None
+        while sample is None or '|' in sample:
+            sample = grabSample(randEnPage())
+        if word in sample.lower().split():
+            enCount += 1
+
+        sample = None
+        while sample is None or '|' in sample:
+            sample = grabSample(randNlPage())
+        if word in sample.lower().split():
             nlCount += 1
 
     printEntropy(enCount, nlCount, nTrials)
@@ -360,7 +383,7 @@ def hasNSubstrings(nTrials):
     printEntropy(enCount, nlCount, nTrials)
 
 
-legalOptions = ['m', 's', 'g', 'h', 'l', 't']
+legalOptions = ['m', 's', 'g', 'h', 'l', 't', 'w']
 
 
 def main():
@@ -372,7 +395,7 @@ def main():
         while len(stIn) == 0 or (stIn[0] not in legalOptions and not stIn[0] == 'q'):
             print('\tMean Word Length (m), Substring Count (s), Substring Presence (h), Max Word Length (l), Mean Word'
                   ' Threshold (t), ')
-            stIn = input('\tor Generate Training Set (g) (Quit is \'q\'): ')
+            stIn = input('\tContains Word (w), or Generate Training Set (g) (Quit is \'q\'): ')
             stIn = stIn.strip().lower()
         if stIn[0] == 'q':
             break
@@ -399,6 +422,9 @@ def main():
 
         if stIn[0] == 't':
             meanWordThreshold(nTrials)
+
+        if stIn[0] == 'w':
+            hasWord(nTrials)
 
 
 if __name__ == '__main__':
