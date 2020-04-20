@@ -310,8 +310,7 @@ def meanWordThreshold(nTrials):
     nlCount = 0
 
     threshold = None
-    while threshold is None or not str(threshold).strip().isnumeric():
-        threshold = input('\tEnter the minimum number of occurences of the substring: ')
+    threshold = input('\tEnter the minimum mean word length: ')
     threshold = float(threshold)
 
     for i in range(0, nTrials):
