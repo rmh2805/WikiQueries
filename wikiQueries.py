@@ -1,5 +1,6 @@
 from requests import get
 from random import randint
+from math import log2
 
 # ================================================<Raw Data Gathering>================================================ #
 enRand = "https://en.wikipedia.org/wiki/Special:Random"
@@ -136,6 +137,23 @@ def grabSample(text, sampleLength=15):
     return sample
 
 
+def entropy(enCount, nlCount):
+    tot = 0.0
+
+    if enCount + nlCount == 0:
+        return 0.0
+
+    if enCount != 0:
+        p = enCount / (enCount + nlCount)
+        tot += p * log2(p)
+
+    if nlCount != 0:
+        p = nlCount / (enCount + nlCount)
+        tot += p * log2(p)
+
+    return -tot
+
+
 # ==============================================<Primary Function Calls>============================================== #
 def getMeanLen(nTrials):
     enData = []
@@ -222,19 +240,36 @@ def hasSubstring(nTrials):
         if sStr in sample:
             enCount += 1
 
-            sample = None
+        sample = None
         while sample is None or '|' in sample:
             sample = grabSample(randNlPage())
         if sStr in sample:
             nlCount += 1
 
+    enP = float(enCount) / nTrials
+    nlP = float(nlCount) / nTrials
+    totP = float(enCount + nlCount) / (2 * nTrials)
+
+    posEntro = entropy(enCount, nlCount)
+    negEntro = entropy(nTrials - enCount, nTrials - nlCount)
+    totEntro = entropy(nTrials, nTrials)
+
+    remainder = float(enCount + nlCount) / (2 * nTrials) * posEntro
+    remainder += float(nTrials * 2 - enCount - nlCount) / (2 * nTrials) * negEntro
+
     print('\n\tCounts:')
     print('\t\tEnglish: ' + str(enCount))
     print('\t\t  Dutch: ' + str(nlCount))
     print('\tProbabilities:')
-    print('\t\t    P("' + sStr + '" in en): ' + str(float(enCount) / nTrials))
-    print('\t\t    P("' + sStr + '" in nl): ' + str(float(nlCount) / nTrials))
-    print('\t\tP("' + sStr + '" in either): ' + str(float(enCount + nlCount) / 2 * nTrials))
+    print('\t\tP("' + sStr + '" in en):     ' + str(enP))
+    print('\t\tP("' + sStr + '" in nl):     ' + str(nlP))
+    print('\t\tP("' + sStr + '" in either): ' + str(totP))
+    print('\tInfo Gain:')
+    print('\t\tentropy(has substring) = ' + str(posEntro))
+    print('\t\tentropy(no substring)  = ' + str(negEntro))
+    print('\t\tentropy(both)          = ' + str(totEntro))
+    print('\t\tremainder(substring)   = ' + str(remainder))
+    print('\n\t\tinfo gain(substring)   = ' + str(totEntro - remainder))
 
 
 legalOptions = ['m', 's', 'g', 'h']
