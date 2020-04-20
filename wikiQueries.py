@@ -312,7 +312,11 @@ def hasWord(nTrials):
     word = input('\tEnter the word to scan for: ').strip().lower()
     print('\n\tCounting the samples containing the word "' + word + '" over ' + str(nTrials) + ' trials.')
 
+    print('')
     for i in range(0, nTrials):
+        if i % 25 == 0:
+            print(str(i) + ', ', end='')
+
         sample = None
         while sample is None or '|' in sample:
             sample = grabSample(randEnPage())
@@ -324,6 +328,7 @@ def hasWord(nTrials):
             sample = grabSample(randNlPage())
         if word in sample.lower().split():
             nlCount += 1
+    print('')
 
     printEntropy(enCount, nlCount, nTrials)
 
@@ -367,7 +372,11 @@ def hasNSubstrings(nTrials):
     print('\n\tCounting the samples containing more than ' + str(threshold - 1) + ' instances of substring "', end='')
     print(sStr + '" over ' + str(nTrials) + ' trials.')
 
+    print('\t')
     for i in range(0, nTrials):
+        if i % 25 == 0:
+            print(str(i) + ', ', end='')
+
         sample = None
         while sample is None or '|' in sample:
             sample = grabSample(randEnPage())
@@ -379,6 +388,7 @@ def hasNSubstrings(nTrials):
             sample = grabSample(randNlPage())
         if substringCount(sample, sStr) >= threshold:
             nlCount += 1
+    print('')
 
     printEntropy(enCount, nlCount, nTrials)
 
