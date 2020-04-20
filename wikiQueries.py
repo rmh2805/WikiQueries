@@ -313,6 +313,8 @@ def meanWordThreshold(nTrials):
     threshold = input('\tEnter the minimum mean word length: ')
     threshold = float(threshold)
 
+    print('Counting samples with mean word length >= ' + str(threshold) + ' over ' + str(nTrials) + ' trials.')
+
     for i in range(0, nTrials):
         sample = None
         while sample is None or '|' in sample:
