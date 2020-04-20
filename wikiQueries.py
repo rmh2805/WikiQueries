@@ -305,6 +305,32 @@ def hasSubstring(nTrials):
     printEntropy(enCount, nlCount, nTrials)
 
 
+def meanWordThreshold(nTrials):
+    enCount = 0
+    nlCount = 0
+
+    sStr = input('\tEnter the substring to scan for: ').strip().lower()
+    threshold = None
+    while threshold is None or not str(threshold).strip().isnumeric():
+        threshold = input('\tEnter the minimum number of occurences of the substring: ')
+    threshold = float(threshold)
+
+    for i in range(0, nTrials):
+        sample = None
+        while sample is None or '|' in sample:
+            sample = grabSample(randEnPage())
+        if wordLen(sample) >= threshold:
+            enCount += 1
+
+        sample = None
+        while sample is None or '|' in sample:
+            sample = grabSample(randNlPage())
+        if wordLen(sample) >= threshold:
+            nlCount += 1
+
+    printEntropy(enCount, nlCount, nTrials)
+
+
 def hasNSubstrings(nTrials):
     enCount = 0
     nlCount = 0
@@ -334,7 +360,7 @@ def hasNSubstrings(nTrials):
     printEntropy(enCount, nlCount, nTrials)
 
 
-legalOptions = ['m', 's', 'g', 'h', 'l']
+legalOptions = ['m', 's', 'g', 'h', 'l', 't']
 
 
 def main():
@@ -344,13 +370,14 @@ def main():
         stIn = ''
         print('\n\n')
         while len(stIn) == 0 or (stIn[0] not in legalOptions and not stIn[0] == 'q'):
-            print('\tMean Word Length (m), Substring Count (s), Substring Presence (h), Max Word Length (l)')
-            stIn = input('\tor Generate Training Set (g) (quit is \'q\'): ')
+            print('\tMean Word Length (m), Substring Count (s), Substring Presence (h), Max Word Length (l), Mean Word'
+                  ' Threshold (t), ')
+            stIn = input('\tor Generate Training Set (g) (Quit is \'q\'): ')
             stIn = stIn.strip().lower()
-        nTrials = ''
         if stIn[0] == 'q':
             break
 
+        nTrials = ''
         while len(nTrials) == 0 or not nTrials.isnumeric():
             nTrials = input('\tHow many trials to run: ').strip().lower()
         nTrials = int(nTrials)
@@ -368,7 +395,10 @@ def main():
             hasNSubstrings(nTrials)
 
         if stIn[0] == 'l':
-            hasNSubstrings(nTrials)
+            getMaxWordLen(nTrials)
+
+        if stIn[0] == 't':
+            meanWordThreshold(nTrials)
 
 
 if __name__ == '__main__':
