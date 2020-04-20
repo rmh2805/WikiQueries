@@ -124,13 +124,13 @@ def printMeanAndDev(enData, nlData):
 
     print('\tSample Mean:')
     print('\t\tEnglish: ' + str(enMean))
-    print('\t\t  Dutch: ' + str(nlMean))
+    print('\t\tDutch  : ' + str(nlMean))
     print('\tSample Std. Deviation:')
     print('\t\tEnglish: ' + str(enDev))
-    print('\t\t  Dutch: ' + str(nlDev))
+    print('\t\tDutch  : ' + str(nlDev))
     print('\tSample Variance:')
     print('\t\tEnglish: ' + str(enDev ** 2))
-    print('\t\t  Dutch: ' + str(nlDev ** 2))
+    print('\t\tDutch  : ' + str(nlDev ** 2))
 
 
 def grabSample(text, sampleLength=15):
@@ -176,7 +176,7 @@ def printEntropy(enCount, nlCount, nTrials):
 
     print('\n\tCounts:')
     print('\t\tEnglish: ' + str(enCount))
-    print('\t\t  Dutch: ' + str(nlCount))
+    print('\t\tDutch  : ' + str(nlCount))
     print('\tProbabilities:')
     print('\t\tP(Positive | English):     ' + str(enP))
     print('\t\tP(Positive | Dutch)  :     ' + str(nlP))
@@ -186,7 +186,7 @@ def printEntropy(enCount, nlCount, nTrials):
     print('\t\tEntropy(Negatives) = ' + str(negEntro))
     print('\t\tEntropy(Total)     = ' + str(totEntro))
     print('\t\tRemainder(Split)   = ' + str(remainder))
-    print('\n\t\tinfo gain(Split) = ' + str(totEntro - remainder))
+    print('\n\t\tInfo Gain(Split) = ' + str(totEntro - remainder))
 
 
 # ==============================================<Primary Function Calls>============================================== #
@@ -195,7 +195,6 @@ def getMeanLen(nTrials):
     nlData = []
 
     print('\n\tCalculating the mean word lengths of english and dutch phrases over ' + str(nTrials) + ' trials')
-    print(isinstance(nTrials, str))
 
     for i in range(0, nTrials):
         sample = None
@@ -335,7 +334,7 @@ def hasNSubstrings(nTrials):
     printEntropy(enCount, nlCount, nTrials)
 
 
-legalOptions = ['m', 's', 'g', 'h']
+legalOptions = ['m', 's', 'g', 'h', 'l']
 
 
 def main():
@@ -345,8 +344,8 @@ def main():
         stIn = ''
         print('\n\n')
         while len(stIn) == 0 or (stIn[0] not in legalOptions and not stIn[0] == 'q'):
-            stIn = input('\tMax Word Length (m), Substring Count (s), Substring presence (h), or '
-                         'Generate Training Set (g) (quit is \'q\'): ')
+            print('\tMean Word Length (m), Substring Count (s), Substring Presence (h), Max Word Length (l)')
+            stIn = input('\tor Generate Training Set (g) (quit is \'q\'): ')
             stIn = stIn.strip().lower()
         nTrials = ''
         if stIn[0] == 'q':
@@ -357,7 +356,7 @@ def main():
         nTrials = int(nTrials)
 
         if stIn[0] == 'm':
-            getMaxWordLen(nTrials)
+            getMeanLen(nTrials)
 
         if stIn[0] == 's':
             getSubstringFrequency(nTrials)
@@ -366,6 +365,9 @@ def main():
             generateTrainingSet(nTrials)
 
         if stIn[0] == 'h':
+            hasNSubstrings(nTrials)
+
+        if stIn[0] == 'l':
             hasNSubstrings(nTrials)
 
 
