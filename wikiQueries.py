@@ -208,7 +208,36 @@ def generateTrainingSet(nTrials):
     print('\n\t Done')
 
 
-legalOptions = ['m', 's', 'g']
+def hasSubstring(nTrials):
+    enCount = 0
+    nlCount = 0
+
+    sStr = input('\tEnter the substring to scan for: ').strip().lower()
+    print('\n\tCounting the samples containing of substring "' + sStr + '" over ' + str(nTrials) + ' trials.')
+
+    for i in range(0, nTrials):
+        sample = None
+        while sample is None or '|' in sample:
+            sample = grabSample(randEnPage())
+        if sStr in sample:
+            enCount += 1
+
+            sample = None
+        while sample is None or '|' in sample:
+            sample = grabSample(randNlPage())
+        if sStr in sample:
+            nlCount += 1
+
+    print('\n\tCounts:')
+    print('\t\tEnglish: ' + str(enCount))
+    print('\t\t  Dutch: ' + str(nlCount))
+    print('\tProbabilities:')
+    print('\t\t    P("' + sStr + '" in en): ' + str(float(enCount) / nTrials))
+    print('\t\t    P("' + sStr + '" in nl): ' + str(float(nlCount) / nTrials))
+    print('\t\tP("' + sStr + '" in either): ' + str(float(enCount + nlCount) / 2 * nTrials))
+
+
+legalOptions = ['m', 's', 'g', 'h']
 
 
 def main():
@@ -218,7 +247,8 @@ def main():
         stIn = ''
         print('\n\n')
         while len(stIn) == 0 or (stIn[0] not in legalOptions and not stIn[0] == 'q'):
-            stIn = input('\tMean Word Length (m) or Substring Count (s) or Generate Training Set (g) (quit is \'q\'): ')
+            stIn = input('\tMean Word Length (m), Substring Count (s), Substring presence (h), or '
+                         'Generate Training Set (g) (quit is \'q\'): ')
             stIn = stIn.strip().lower()
         nTrials = ''
         if stIn[0] == 'q':
@@ -236,6 +266,9 @@ def main():
 
         if stIn[0] == 'g':
             generateTrainingSet(nTrials)
+
+        if stIn[0] == 'h':
+            hasSubstring(nTrials)
 
 
 if __name__ == '__main__':
